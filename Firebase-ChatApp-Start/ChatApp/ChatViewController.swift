@@ -7,8 +7,8 @@
 
 import UIKit
 import Photos
-import Firebase
-import JSQMessagesViewController
+//Mark: Import Firebase and JSQMessagesViewController
+
 
 final class ChatViewController: JSQMessagesViewController {
   
@@ -131,48 +131,9 @@ final class ChatViewController: JSQMessagesViewController {
 
   // MARK: Firebase related methods
   
-  private func observeMessages() {
-    messageRef = channelRef!.child("messages")
-    let messageQuery = messageRef.queryLimited(toLast:25)
-    
-    // We can use the observe method to listen for new
-    // messages being written to the Firebase DB
-    newMessageRefHandle = messageQuery.observe(.childAdded, with: { (snapshot) -> Void in
-      let messageData = snapshot.value as! Dictionary<String, String>
-
-      if let id = messageData["senderId"] as String!, let name = messageData["senderName"] as String!, let text = messageData["text"] as String!, text.characters.count > 0 {
-        self.addMessage(withId: id, name: name, text: text)
-        self.finishReceivingMessage()
-      } else if let id = messageData["senderId"] as String!, let photoURL = messageData["photoURL"] as String! {
-        if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: id == self.senderId) {
-          self.addPhotoMessage(withId: id, key: snapshot.key, mediaItem: mediaItem)
-          
-          if photoURL.hasPrefix("gs://") {
-            self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: nil)
-          }
-        }
-      } else {
-        print("Error! Could not decode message data")
-      }
-    })
-    
-    // We can also use the observer method to listen for
-    // changes to existing messages.
-    // We use this to be notified when a photo has been stored
-    // to the Firebase Storage, so we can update the message data
-    updatedMessageRefHandle = messageRef.observe(.childChanged, with: { (snapshot) in
-      let key = snapshot.key
-      let messageData = snapshot.value as! Dictionary<String, String>
-      
-      if let photoURL = messageData["photoURL"] as String! {
-        // The photo has been updated.
-        if let mediaItem = self.photoMessageMap[key] {
-          self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: key)
-        }
-      }
-    })
-  }
+    //Write observeMessagesFunc
   
+    
   private func fetchImageDataAtURL(_ photoURL: String, forMediaItem mediaItem: JSQPhotoMediaItem, clearsPhotoMessageMapOnSuccessForKey key: String?) {
     let storageRef = FIRStorage.storage().reference(forURL: photoURL)
     storageRef.data(withMaxSize: INT64_MAX){ (data, error) in

@@ -28,7 +28,7 @@ class ChannelListViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    title = "RW RIC"
+    title = "QuickMessage"
     observeChannels()
   }
   
