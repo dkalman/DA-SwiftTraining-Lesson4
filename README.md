@@ -1,5 +1,5 @@
 # iOS Training - Lesson 4
-*Photo Filter Application with Login and Database sync*
+*Quick Messaging Application into Database*
 
 ## Install CocoPods:
 1) open terminal and paste the following:
@@ -59,20 +59,6 @@ If you have setup Firebase during Lesson 3 - your done setting up. if not.
 7) Drag it to the files section in Xcode; and FINISH in the window that Xcode pops up. 
 
 8) back in the Firebase window, click next, next, finish - we dont need any of that at this point of time.
-
-
-## Configing your XCode project
-1) Open the XcodeWorkspace (White Xcode Icon, not blue)
-
-2) goto App Delegate; and add the following line under the comment:
-// TODO: Call the Firebase app configuration code
-
-
-3) add the following line of code:
-
-```javascript
-FIRApp.configure()
-```
 
 
 
